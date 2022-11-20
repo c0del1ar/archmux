@@ -17,7 +17,7 @@ package() {
     else
         apt update -y > out.log 2> err.log
         apt upgrade -y > out.log 2> err.log
-        packs=(pulseaudio proot-distro wget)
+        packs=(pulseaudio proot-distro wget tigervnc x11-repo xorg-xhost)
         for pkgname in "${packs[@]}"; do
             type -p "$pkgname" &>/dev/null || {
                 echo -e "$info Installing package : ${C}${pkgname}${reset}"
