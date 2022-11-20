@@ -1,8 +1,12 @@
 # ArchMux
 
-Setting up your termux `proot-distro` archlinux
+Setting up your termux `proot-distro` archlinux.
+It requires at least 7GB storage to install most dependencies set.
 
 ![ss](Screenshot_2022_1120_183343.jpg)
+
+- [x] GUI desktop
+- [x] Audio/Sound set
 
 ### Tutorials
 
@@ -24,10 +28,9 @@ cd archmux
 7. Run `bash set_gui.sh` for final setup.
 8. Last thing, don't forget to showing off to your socmed contacts as <sub>**I use Arch BTW**</sub>.
 
-
 See [this file](distro-config/INFO.md) for more information.
 
 ### Contributing
 
-Don't hesitate to contribute and support
+Don't hesitate to contribute and support by make pull request or write an issue :smile:.
 
