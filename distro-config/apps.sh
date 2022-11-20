@@ -1,21 +1,24 @@
 #!/bin/bash
 
 app_install() {
-	if [[ `which $1` ]]; then
+	if [[ `which $1 2>err.log` ]]; then
 		echo -e "$warn $1 was installed successfully."
 		echo -e "$info Try upgrading it..."
 	fi
 	
 	echo -e "$info Checking package availability..."
-	if [[ `sudo pacman -Si $1` ]]; then
+	if [[ `sudo pacman -Si $1 2>err.log` ]]; then
 		echo -e "$info Installing package use ${C}pacman${reset}"
 		execcom "sudo pacman -S $1"
 	else
 		echo -e "$info Installing package use AUR git repository"
-		if [[ `command -v yay` ]]; then
+		if [[ ! `command -v yay` ]]; then
 			echo -e "$warn YAY is not installed."
 			echo -e "$info Using ${C}yoi()${reset} function installation..."
-			yoi $2
+			yoi $1
+		else
+			echo -e "$info Install using yay..."
+			execcom "yay -S $1"
 		fi
 	fi
 }

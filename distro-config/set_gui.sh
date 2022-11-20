@@ -49,10 +49,10 @@ app_list() {
 		read mychoice
 		case "$mychoice" in
 			0) echo -e "$info Exitting..." && break;;
-			1) app_install chromium chromium ;;
-			2) app_install firefox firefox ;;
-			3) app_install sublimetext sublimetext4 ;;
-			4) app_install vscode visual-studio-code-bin ;;
+			1) app_install chromium ;;
+			2) app_install firefox ;;
+			3) app_install sublime-text-4 ;;
+			4) app_install visual-studio-code-bin ;;
 			*) echo -e "$err Input is not valid" ;;
 		esac
 	done
