@@ -1,7 +1,7 @@
 #!/bin/bash
 
 app_install() {
-	if [[ `which $1 2>err.log` ]]; then
+	if [[ `command -v $1` ]]; then
 		echo -e "$warn $1 was installed successfully."
 		echo -e "$info Try upgrading it..."
 	fi
@@ -56,7 +56,7 @@ yoi() {
 	fi
 
 	if [[ ! `command -v git` ]]; then
-		echo -e "$info Downloading git uses for aur package builder..."
+		echo -e "$info Downloading git uses for AUR package builder..."
 		sudo pacman -S git
 	fi
 	

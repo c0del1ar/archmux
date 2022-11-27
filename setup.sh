@@ -11,13 +11,13 @@ storage_check() {
 }
 
 package() {
-	echo -e "$info Checking required package : (${W}wget proot-distro pulseaudio${reset})"
-	if [[ `command -v pulseaudio` && `command -v proot-distro` && `command -v wget` ]]; then
+	echo -e "$info Checking required package : (${W}proot-distro pulseaudio tigervnc xorg-xhost${reset})"
+	if [[ `command -v pulseaudio` && `command -v proot-distro` && `command -v xhost` ]]; then
         echo -e "$info Packages already installed."
     else
         apt update -y > out.log 2> err.log
         apt upgrade -y > out.log 2> err.log
-        packs=(pulseaudio proot-distro wget tigervnc x11-repo xorg-xhost)
+        packs=(pulseaudio proot-distro tigervnc x11-repo xorg-xhost)
         for pkgname in "${packs[@]}"; do
             type -p "$pkgname" &>/dev/null || {
                 echo -e "$info Installing package : ${C}${pkgname}${reset}"

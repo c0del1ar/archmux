@@ -80,3 +80,4 @@ while [[ True ]]; do
 			exit 0 ;;
 	esac
 done
+rm ~/distro-config/err.log

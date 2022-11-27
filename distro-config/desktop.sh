@@ -42,6 +42,8 @@ owl4ce_dotfiles() {
 				echo -e "$info Use ${C}yoi()${reset} instead..."
 				aur_install="yoi" ;;
 		esac
+	else
+		aur_install="yay -S"
 	fi
 	echo -e "$info Installing desktop environment and window manager..."
 	sudo pacman -S dunst nitrogen openbox rofi tint2 picom perl-gtk3 xdg-user-dirs --noconfirm
@@ -60,7 +62,7 @@ owl4ce_dotfiles() {
 	wget --no-hsts -cNP ~/.fonts/IcoMoon-Custom/ https://github.com/owl4ce/dotfiles/releases/download/ng/{Feather,Material}.ttf
 	wget --no-hsts -cNP ~/.fonts/Nerd-Patched/ https://github.com/owl4ce/dotfiles/releases/download/ng/M+.1mn.Nerd.Font.Complete.ttf
 	wget --no-hsts -cNP ~/.fonts/Nerd-Patched/ https://github.com/owl4ce/dotfiles/releases/download/ng/{M+.1mn,Iosevka}.Nerd.Font.Complete.Mono.ttf
-	wget --no-hsts -cNP ~/.fonts/Unifont/ https://unifoundry.com/pub/unifont/unifon02/font-builds/unifon02.ttf
+	wget --no-hsts -cNP ~/.fonts/Unifont/ https://unifoundry.com/pub/unifont/unifont-14.0.02/font-builds/unifont-14.0.02.ttf
 	wget --no-hsts -cN https://download-fallback.gnome.org/sources/cantarell-fonts/0.303/cantarell-fonts-0.303.1.tar.xz
 	tar -xvf cantarell*.tar.xz --strip-components 2 --wildcards -C ~/.fonts/Cantarell/ \*/\*/Cantarell-VF.otf
 	
