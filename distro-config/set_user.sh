@@ -5,8 +5,8 @@ source vars.sh
 echo -e "$info Updating package.. (${C}400 MB${reset})"
 sleep 2
 pacman -Syuu --noconfirm
-echo -e "$info Installing sudo..."
-pacman -S sudo wget dialog --noconfirm
+echo -e "$info Installing based packages..."
+pacman -S sudo wget dialog base-devel --noconfirm
 echo -e "$info Configurating ${C}patch${reset} bin data to prevent AUR package's installation issue..."
 ln -s /data/data/com.termux/files/usr/bin/patch /usr/local/bin/patch
 read -p "Make your username (lowercase): " user

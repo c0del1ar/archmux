@@ -55,9 +55,9 @@ yoi() {
 		exit 0;
 	fi
 
-	if [[ ! `command -v git` ]]; then
-		echo -e "$info Downloading git uses for AUR package builder..."
-		sudo pacman -S git
+	if [[ ! `command -v git` && ! `command -v fakeroot` ]]; then
+		echo -e "$info Downloading package uses for AUR package builder..."
+		sudo pacman -S git base-devel --noconfirm
 	fi
 	
 	git clone https://aur.archlinux.org/$1.git
