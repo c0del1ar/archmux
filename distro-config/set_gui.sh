@@ -8,7 +8,7 @@ gui_setup() {
 	de_menu=("XFCE" "XFCE/Openbox" "KDE/Plasma")
 	wm_menu=("Openbox")
 	other_menu=("Openbox (${G}@owl4ce/dotfiles${reset})"
-				"Openbox (${G}@ilham25/dotfiles${reset})")
+				"Openbox (${G}@ilham25/dotfiles-openbox${reset})")
 	echo -e "$info Choose what you want to set desktop GUI"
 	k=1
 	echo "- SELF SETUPS"
