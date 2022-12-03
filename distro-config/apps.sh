@@ -1,5 +1,13 @@
 #!/bin/bash
 
+check_update() {
+	echo -e "$info Updating and upgrading installed system dependencies..."
+	if [[ `command -v sudo` ]]; then
+		suer="sudo "
+	fi
+	${suer}pacman -Syuu --noconfirm
+}
+
 app_install() {
 	if [[ `command -v $1` ]]; then
 		echo -e "$warn $1 was installed successfully."
@@ -7,7 +15,7 @@ app_install() {
 	fi
 	
 	echo -e "$info Checking package availability..."
-	if [[ `sudo pacman -Si $1 2>err.log` ]]; then
+	if [[ `pacman -Si $1 2>err.log` ]]; then
 		echo -e "$info Installing package use ${C}pacman${reset}"
 		execcom "sudo pacman -S $1"
 	else
@@ -45,8 +53,12 @@ DISPLAY=:1 xhost +" > /data/data/com.termux/files/usr/bin/vncstart
 }
 
 sound_set() {
+	archloginpath=$PREFIX/bin/archlogin
 	echo -e "$info Setting up sound..."
-	echo "$(echo "bash ~/.sound" | cat - /data/data/com.termux/files/usr/bin/archlogin)" > /data/data/com.termux/files/usr/bin/archlogin
+	if ! grep -Fxq "bash ~/.sound" $archloginpath
+	then
+		echo "$(echo "bash ~/.sound" | cat - $archloginpath)" > $archloginpath
+	fi
 }
 
 # is like yay -S

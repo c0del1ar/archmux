@@ -7,7 +7,8 @@ source desktop.sh
 gui_setup() {
 	de_menu=("XFCE" "XFCE/Openbox" "KDE/Plasma")
 	wm_menu=("Openbox")
-	other_menu=("owl4ce [Openbox]")
+	other_menu=("Openbox (${G}@owl4ce/dotfiles${reset})"
+				"Openbox (${G}@ilham25/dotfiles${reset})")
 	echo -e "$info Choose what you want to set desktop GUI"
 	k=1
 	echo "- SELF SETUPS"
@@ -34,6 +35,7 @@ gui_setup() {
 		3) plasma_install ;;
 		4) openbox_install ;;
 		5) owl4ce_dotfiles ;;
+		6) ilham25_dotfiles ;;
 		*) echo -e "$err Cancelling..." && sleep 1;;
 	esac
 }
@@ -59,6 +61,7 @@ app_list() {
 }
 
 sound_set
+check_update
 while [[ True ]]; do
 	banner
 	echo ""

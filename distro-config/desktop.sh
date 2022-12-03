@@ -102,3 +102,35 @@ neofetch
 EXCLUDE
 	fc-cache -rv
 }
+
+ilham25_dotfiles() {
+	echo "$info Installing all dependencies..."
+	sudo pacman -S openbox alsa-utils pulseaudio pulseaudio-alsa brightnessctl \
+					wireless_tools dunst tint2 gsimplecal rofi feh lxappearance qt5ct \
+					lxsession xautolock xclip scrot thunar thunar-archive-plugin \
+					thunar-media-tags-plugin thunar-volman lxsession tumbler jq w3m geany \
+					nano vim viewnior pavucontrol parcellite neofetch htop  gtk2-perl \
+					xfce4-power-manager imagemagick playerctl xsettingsd rsync \
+					--noconfirm
+	
+	if [[ `command -v yay` ]]; then
+		yay -S picom-git networkmanager-dmenu rxvt-unicode-truecolor-wide-glyphs qt5-styleplugins
+	else
+		yoi picom-git
+		yoi networkmanager-dmenu-git
+		yoi rxvt-unicode-truecolor-wide-glyphs
+		yoi qt5-styleplugins
+	fi
+	
+	echo "$info Getting all setups from dotfiles..."
+	git clone --depth 1 https://github.com/ilham25/dotfiles-openbox
+	pushd dotfiles-openbox/ && \
+		bash -c 'cp -v -r {.*,*} ~/' && \
+	popd
+	rm ~/README.md && rm ~/LICENSE && rm -rf ~/.git
+	cd ~/.icons/
+	tar -Jxvf oomox-aesthetic-light.tar.xz && tar -Jxvf oomox-aesthetic-dark.tar.xz
+	sudo cp -r {oomox-aesthetic-light,oomox-aesthetic-dark} /usr/share/icons/
+	rm -r ~/.icons/{oomox-aesthetic-light,oomox-aesthetic-dark,*.tar.xz} # Delete unnecessary files
+	fc-cache -rv
+}
