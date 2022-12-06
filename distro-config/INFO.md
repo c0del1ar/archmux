@@ -10,7 +10,7 @@
 
 - Choose an option to setting up your desktop. Choose option in `SELF SETUPS` to set manually yours, or choose in `OTHER SETUPS` for implementing a dotfiles setup by other linuxers.
 - It's recommended to use Window Manager for low device.
-- If you choose `XFCE/Openbox` setup, then this will help you [How to XFCE/Openbox](http://openbox.org/wiki/Help:XFCE/Openbox)
+- If you choose `XFCE/Openbox` setup, then this will help you [How to set XFCE/Openbox](http://openbox.org/wiki/Help:XFCE/Openbox)
 - To start VNC Server, open a native termux session (or open new Tab) then type `vncstart`. And login back in archlinux session then type `vncstart` again. The VNC Server will be serve last desktop GUI setup.
 
 ### Apps

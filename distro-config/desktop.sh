@@ -51,9 +51,9 @@ owl4ce_dotfiles() {
 	$aur_install rxvt-unicode-truecolor
 	$aur_install obmenu-generator
 	sudo pacman -S pulseaudio pulseaudio-alsa mpd mpc ncmpcpp \
-					alsa-utils brightnessctl imagemagick scrot w3m wireless_tools xclip xsettingsd xss-lock \
-					thunar thunar-archive-plugin thunar-volman ffmpegthumbnailer tumbler \
-					geany geany-plugins gimp gsimplecal inkscape mpv parcellite pavucontrol viewnior xfce4-power-manager \
+			alsa-utils brightnessctl imagemagick scrot w3m wireless_tools xclip xsettingsd xss-lock \
+			thunar thunar-archive-plugin thunar-volman ffmpegthumbnailer tumbler \
+			geany geany-plugins gimp gsimplecal inkscape mpv parcellite pavucontrol viewnior xfce4-power-manager \
 					--noconfirm
 	
 	echo -e "$info Installing fonts..."
@@ -101,17 +101,19 @@ EXCLUDE
 neofetch
 EXCLUDE
 	fc-cache -rv
+	vnc_set "dbus-launch openbox &
+dbus-launch cairo-dock &"
 }
 
 ilham25_dotfiles() {
 	echo "$info Installing all dependencies..."
 	sudo pacman -S openbox alsa-utils pulseaudio pulseaudio-alsa brightnessctl \
-					wireless_tools dunst tint2 gsimplecal rofi feh lxappearance qt5ct \
-					lxsession xautolock xclip scrot thunar thunar-archive-plugin \
-					thunar-media-tags-plugin thunar-volman lxsession tumbler jq w3m geany \
-					nano vim viewnior pavucontrol parcellite neofetch htop  gtk2-perl \
-					xfce4-power-manager imagemagick playerctl xsettingsd rsync \
-					--noconfirm
+			wireless_tools dunst tint2 gsimplecal rofi feh lxappearance qt5ct \
+			lxsession xautolock xclip scrot thunar thunar-archive-plugin \
+			thunar-media-tags-plugin thunar-volman lxsession tumbler jq w3m geany \
+			nano vim viewnior pavucontrol parcellite neofetch htop  gtk2-perl \
+			xfce4-power-manager imagemagick playerctl xsettingsd rsync \
+			--noconfirm
 	
 	if [[ `command -v yay` ]]; then
 		yay -S picom-git networkmanager-dmenu rxvt-unicode-truecolor-wide-glyphs qt5-styleplugins
@@ -133,4 +135,5 @@ ilham25_dotfiles() {
 	sudo cp -r {oomox-aesthetic-light,oomox-aesthetic-dark} /usr/share/icons/
 	rm -r ~/.icons/{oomox-aesthetic-light,oomox-aesthetic-dark,*.tar.xz} # Delete unnecessary files
 	fc-cache -rv
+	vnc_set "dbus-launch openbox &"
 }
