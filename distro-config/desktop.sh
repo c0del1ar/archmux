@@ -3,7 +3,7 @@
 #Window manager
 openbox_install() {
 	echo -e "$info Installing openbox window manager..."
-	execcom "sudo pacman -S openbox obconf dbus xorg xterm xfce4-terminal pcmanfm shotwell cairo-dock --noconfirm"
+	execcom "$sudo pacman -S openbox obconf dbus xorg xterm xfce4-terminal pcmanfm shotwell cairo-dock --noconfirm"
 	vnc_set "dbus-launch openbox &
 dbus-launch cairo-dock &"
 }
@@ -11,14 +11,26 @@ dbus-launch cairo-dock &"
 #Desktop environment
 xfce_install() {
 	echo -e "$info Installing XFCE desktop..."
-	execcom "sudo pacman -S xfce4 xfce4-goodies lightdm --noconfirm"
+	execcom "$sudo pacman -S xfce4 xfce4-goodies lightdm --noconfirm"
 	vnc_set "dbus-launch startxfce4 &"
 }
 
 plasma_install() {
 	echo -e "$info Installing Plasma Desktop"
-	execcom "sudo pacman -S dbus xorg plasma-desktop --noconfirm"
+	execcom "$sudo pacman -S dbus xorg plasma-desktop --noconfirm"
 	vnc_set "dbus-launch starplasma-x11 &"
+}
+
+gnome_install() {
+	echo -e "$info Installing GNOME Desktop"
+	execcom "$sudo pacman -S gnome-flashback gnome-terminal gnome-control-center terminator archlinux-wallpaper dconf-editor --noconfirm"
+	$sudo pacman -S neofetch
+	echo -e "$info Now you can configure your desktop yourself"
+	vnc_set "rm -rf /run/dbus/pid
+dbus-daemon --system
+dbus-launch metacity &
+dbus-launch gnome-panel &
+dbus-launch gnome-flashback &"
 }
 
 
@@ -46,11 +58,11 @@ owl4ce_dotfiles() {
 		aur_install="yay -S"
 	fi
 	echo -e "$info Installing desktop environment and window manager..."
-	sudo pacman -S dunst nitrogen openbox rofi tint2 picom perl-gtk3 xdg-user-dirs --noconfirm
+	$sudo pacman -S dunst nitrogen openbox rofi tint2 picom perl-gtk3 xdg-user-dirs --noconfirm
 	echo -e "$info Installing all required bin packages..."
 	$aur_install rxvt-unicode-truecolor
 	$aur_install obmenu-generator
-	sudo pacman -S pulseaudio pulseaudio-alsa mpd mpc ncmpcpp \
+	$sudo pacman -S pulseaudio pulseaudio-alsa mpd mpc ncmpcpp \
 			alsa-utils brightnessctl imagemagick scrot w3m wireless_tools xclip xsettingsd xss-lock \
 			thunar thunar-archive-plugin thunar-volman ffmpegthumbnailer tumbler \
 			geany geany-plugins gimp gsimplecal inkscape mpv parcellite pavucontrol viewnior xfce4-power-manager \
@@ -72,8 +84,8 @@ owl4ce_dotfiles() {
 	tar -xf Gladient_JfD.tar.xz -C ~/.icons/
 	tar -xf Papirus-Custom.tar.xz -C ~/.icons/
 	tar -xf Papirus-Dark-Custom.tar.xz -C ~/.icons/
-	sudo ln -vs ~/.icons/Papirus-Custom /usr/share/icons/
-	sudo ln -vs ~/.icons/Papirus-Dark-Custom /usr/share/icons/
+	$sudo ln -vs ~/.icons/Papirus-Custom /usr/share/icons/
+	$sudo ln -vs ~/.icons/Papirus-Dark-Custom /usr/share/icons/
 	
 	echo -e "$info Installing wallpapers..."
 	mkdir -pv ~/.wallpapers/{mechanical,eyecandy}
@@ -89,7 +101,7 @@ owl4ce_dotfiles() {
 	xdg-user-dirs-update
 	cd ~/Documents/
 	git clone --depth 1 --recurse-submodules https://github.com/owl4ce/dotfiles.git
-	sudo pacman -S rsync --noconfirm
+	$sudo pacman -S rsync --noconfirm
 	rsync -avxHAXP --exclude-from=- dotfiles/. ~/ << "EXCLUDE"
 .git*
 LICENSE
@@ -107,7 +119,7 @@ dbus-launch cairo-dock &"
 
 ilham25_dotfiles() {
 	echo "$info Installing all dependencies..."
-	sudo pacman -S openbox alsa-utils pulseaudio pulseaudio-alsa brightnessctl \
+	$sudo pacman -S openbox alsa-utils pulseaudio pulseaudio-alsa brightnessctl \
 			wireless_tools dunst tint2 gsimplecal rofi feh lxappearance qt5ct \
 			lxsession xautolock xclip scrot thunar thunar-archive-plugin \
 			thunar-media-tags-plugin thunar-volman lxsession tumbler jq w3m geany \
@@ -132,7 +144,7 @@ ilham25_dotfiles() {
 	rm ~/README.md && rm ~/LICENSE && rm -rf ~/.git
 	cd ~/.icons/
 	tar -Jxvf oomox-aesthetic-light.tar.xz && tar -Jxvf oomox-aesthetic-dark.tar.xz
-	sudo cp -r {oomox-aesthetic-light,oomox-aesthetic-dark} /usr/share/icons/
+	$sudo cp -r {oomox-aesthetic-light,oomox-aesthetic-dark} /usr/share/icons/
 	rm -r ~/.icons/{oomox-aesthetic-light,oomox-aesthetic-dark,*.tar.xz} # Delete unnecessary files
 	fc-cache -rv
 	vnc_set "dbus-launch openbox &"

@@ -5,7 +5,7 @@ source apps.sh
 source desktop.sh
 
 gui_setup() {
-	de_menu=("XFCE" "XFCE/Openbox" "KDE/Plasma")
+	de_menu=("XFCE" "XFCE/Openbox" "KDE/Plasma", "GNOME")
 	wm_menu=("Openbox")
 	other_menu=("Openbox (${G}@owl4ce/dotfiles${reset})"
 				"Openbox (${G}@ilham25/dotfiles-openbox${reset})")
@@ -33,9 +33,10 @@ gui_setup() {
 		1) xfce_install ;;
 		2) openbox_install && xfce_install ;;
 		3) plasma_install ;;
-		4) openbox_install ;;
-		5) owl4ce_dotfiles ;;
-		6) ilham25_dotfiles ;;
+		4) gnome_install ;;
+		5) openbox_install ;;
+		6) owl4ce_dotfiles ;;
+		7) ilham25_dotfiles ;;
 		*) echo -e "$err Cancelling..." && sleep 1;;
 	esac
 }

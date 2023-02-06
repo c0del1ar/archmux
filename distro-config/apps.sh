@@ -2,10 +2,7 @@
 
 check_update() {
 	echo -e "$info Updating and upgrading installed system dependencies..."
-	if [[ `command -v sudo` ]]; then
-		suer="sudo "
-	fi
-	${suer}pacman -Syuu --noconfirm
+	$sudo pacman -Syuu --noconfirm
 }
 
 app_install() {
@@ -17,7 +14,7 @@ app_install() {
 	echo -e "$info Checking package availability..."
 	if [[ `pacman -Si $1 2>err.log` ]]; then
 		echo -e "$info Installing package use ${C}pacman${reset}"
-		execcom "sudo pacman -S $1"
+		execcom "$sudo pacman -S $1"
 	else
 		echo -e "$info Installing package use AUR git repository"
 		if [[ ! `command -v yay` ]]; then
@@ -35,7 +32,7 @@ vnc_set () {
 	echo -e "$info Setting up Vnc server..."
 	if [[ ! `command -v vncserver` ]]; then
 		echo -e "$info Installing tigervnc..."
-		execcom "sudo pacman -S tigervnc lightdm --noconfirm"
+		execcom "$sudo pacman -S tigervnc lightdm --noconfirm"
 	fi
 	
 	echo "#!/bin/bash
@@ -69,7 +66,7 @@ yoi() {
 
 	if [[ ! `command -v git` && ! `command -v fakeroot` ]]; then
 		echo -e "$info Downloading package uses for AUR package builder..."
-		sudo pacman -S git base-devel --noconfirm
+		$sudo pacman -S git base-devel --noconfirm
 	fi
 	
 	git clone https://aur.archlinux.org/$1.git
@@ -86,7 +83,7 @@ yoi() {
 	echo -e "$info Installing missing dependencies..."
 	for dep in "${depends[@]}"; do
 		echo -e "$info Installing $dep..."
-		sudo pacman -S $dep --noconfirm 2> err.log
+		$sudo pacman -S $dep --noconfirm 2> err.log
 		if [[ `cat err.log | grep -E "target not found"` ]]; then
 			IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
 			pacname=$(sed 's/=.*//' <<< $(sed 's/<.*//' <<<  $(sed 's/>.*//' <<< $(echo "${strings[1]}" | grep -Po ".*"))))
@@ -97,5 +94,5 @@ yoi() {
 	done
 	makepkg -si --noconfirm
 	cd ../
-	sudo rm -rf $1
+	$sudo rm -rf $1
 }

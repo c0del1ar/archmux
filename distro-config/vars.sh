@@ -35,3 +35,6 @@ execcom(){
 	echo $1 >> history_cmd.log
 	$1
 }
+
+$sudo = ""
+if [[ `command -v sudo` && `id -u` ]]; then $sudo = "sudo"; fi
