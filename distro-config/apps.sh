@@ -69,30 +69,33 @@ yoi() {
 		$sudo pacman -S git base-devel --noconfirm
 	fi
 	
-	git clone https://aur.archlinux.org/$1.git
-	cd $1
-	echo -e "$info Initializing package source..."
-	source PKGBUILD
-	
-	if [[ ! "${arch[@]}" =~ "$myarch" && ! "${arch[@]}" =~ "any" ]]; then
-		echo -e "$err Architectur doesn't match!"
-		echo -e "$warn Bypassing architectur support, this may break some package(s)..."
-		sed -i -e 's/arch=\((.*)\)/arch=\(any\)/g' PKGBUILD
-	fi
-
-	echo -e "$info Installing missing dependencies..."
-	for dep in "${depends[@]}"; do
-		echo -e "$info Installing $dep..."
-		$sudo pacman -S $dep --noconfirm 2> err.log
-		if [[ `cat err.log | grep -E "target not found"` ]]; then
-			IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
-			pacname=$(sed 's/=.*//' <<< $(sed 's/<.*//' <<<  $(sed 's/>.*//' <<< $(echo "${strings[1]}" | grep -Po ".*"))))
-			rm err.log
-			echo -e "$warn ${C}$pacname${reset} seems like an AUR package..."
-			yoi $pacname
+	for dep_lib in "$@"; do
+		git clone https://aur.archlinux.org/$dep_lib.git
+		cd $dep_lib
+		echo -e "$info Initializing package source..."
+		source PKGBUILD
+		
+		if [[ ! "${arch[@]}" =~ "$myarch" && ! "${arch[@]}" =~ "any" ]]; then
+			echo -e "$err Architectur doesn't match!"
+			echo -e "$warn Bypassing architectur support, this may break some package(s)..."
+			sed -i -e 's/arch=\((.*)\)/arch=\(any\)/g' PKGBUILD
 		fi
+		
+		echo -e "$info Installing missing dependencies..."
+		for dep in "${depends[@]}"; do
+			echo -e "$info Installing $dep..."
+			$sudo pacman -S $dep --noconfirm 2> err.log
+			if [[ `cat err.log | grep -E "target not found"` ]]; then
+				IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
+				pacname=$(sed 's/=.*//' <<< $(sed 's/<.*//' <<<  $(sed 's/>.*//' <<< $(echo "${strings[1]}" | grep -Po ".*"))))
+				rm err.log
+				echo -e "$warn ${C}$pacname${reset} seems like an AUR package..."
+				yoi $pacname
+				fi
+		done
+		
+		makepkg -si --noconfirm
+		cd ../
+		$sudo rm -rf $dep_lib
 	done
-	makepkg -si --noconfirm
-	cd ../
-	$sudo rm -rf $1
 }
