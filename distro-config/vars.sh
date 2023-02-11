@@ -36,5 +36,5 @@ execcom(){
 	$1
 }
 
-$sudo = ""
-if [[ `command -v sudo` && `id -u` ]]; then $sudo = "sudo"; fi
+sudo=""
+if [[ `command -v sudo` && `id -u` ]]; then sudo="sudo"; fi

@@ -75,7 +75,7 @@ yoi() {
 		echo -e "$info Initializing package source..."
 		source PKGBUILD
 		
-		if [[ ! "${arch[@]}" =~ "$myarch" && ! "${arch[@]}" =~ "any" ]]; then
+		if [[ ! "${arch[@]}" =~ "$myarch" || ! "${arch[@]}" =~ "any" ]]; then
 			echo -e "$err Architectur doesn't match!"
 			echo -e "$warn Bypassing architectur support, this may break some package(s)..."
 			sed -i -e 's/arch=\((.*)\)/arch=\(any\)/g' PKGBUILD

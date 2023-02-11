@@ -2,7 +2,7 @@
 
 source vars.sh
 
-echo -e "$info Updating package.. (${C}400 MB${reset})"
+echo -e "$info Updating package.."
 sleep 2
 pacman -Syuu --noconfirm
 echo -e "$info Installing based packages..."
