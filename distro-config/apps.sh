@@ -50,21 +50,23 @@ DISPLAY=:1 xhost +" > /data/data/com.termux/files/usr/bin/vncstart
 }
 
 sound_set() {
-	archloginpath=$PREFIX/bin/archlogin
+	ARCH_LOG_DIR=$(which archlogin)
 	echo -e "$info Setting up sound..."
-	if ! grep -Fxq "bash ~/.sound" $archloginpath
+	if ! grep -Fxq "bash ~/.sound" $ARCH_LOG_DIR
 	then
-		echo "$(echo "bash ~/.sound" | cat - $archloginpath)" > $archloginpath
+		echo "$(echo "bash ~/.sound" | cat - $ARCH_LOG_DIR)" > $ARCH_LOG_DIR
 	fi
 }
 
 # is like yay -S
 yoi() {
 	if [[ $1 == "" ]]; then
-		exit 0;
+		echo -e "$error No package(s) to install... Use \`${C}yoi package1 package2
+		packageN${reset}\`"
+		exit 0
 	fi
 
-	if [[ ! `command -v git` && ! `command -v fakeroot` ]]; then
+	if [[ ! `command -v git` || ! `command -v fakeroot` ]]; then
 		echo -e "$info Downloading package uses for AUR package builder..."
 		$sudo pacman -S git base-devel --noconfirm
 	fi
@@ -83,15 +85,20 @@ yoi() {
 		
 		echo -e "$info Installing missing dependencies..."
 		for dep in "${depends[@]}"; do
-			echo -e "$info Installing $dep..."
-			$sudo pacman -S $dep --noconfirm 2> err.log
-			if [[ `cat err.log | grep -E "target not found"` ]]; then
-				IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
-				pacname=$(sed 's/=.*//' <<< $(sed 's/<.*//' <<<  $(sed 's/>.*//' <<< $(echo "${strings[1]}" | grep -Po ".*"))))
-				rm err.log
-				echo -e "$warn ${C}$pacname${reset} seems like an AUR package..."
-				yoi $pacname
+			printf "$info Checking $dep... "
+			if [[ `pacman -Q $dep 2>/dev/null` ]]; then
+				printf "was ${G}Installed${reset}! Skipping.."
+			else
+				printf "is ${R}not Installed${reset}, Installing.."
+				$sudo pacman -S $dep --noconfirm 2> err.log
+				if [[ `cat err.log | grep -E "target not found"` ]]; then
+					IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
+					pacname=$(sed 's/=.*//' <<< $(sed 's/<.*//' <<<  $(sed 's/>.*//' <<< $(echo "${strings[1]}" | grep -Po ".*"))))
+					rm err.log
+					echo -e "$warn ${C}$pacname${reset} seems like an AUR package..."
+					yoi $pacname
 				fi
+			fi
 		done
 		
 		makepkg -si --noconfirm
