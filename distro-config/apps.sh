@@ -87,7 +87,7 @@ yoi() {
 		for dep in "${depends[@]}"; do
 			printf "$info Checking $dep... "
 			if [[ `pacman -Q $dep 2>/dev/null` ]]; then
-				printf "was ${G}Installed${reset}! Skipping.."
+				printf "was ${G}Installed${reset}! Skipping...\n"
 			else
 				printf "is ${R}not Installed${reset}, Installing.."
 				$sudo pacman -S $dep --noconfirm 2> err.log
