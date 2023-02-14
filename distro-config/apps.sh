@@ -89,7 +89,7 @@ yoi() {
 			if [[ `pacman -Q $dep 2>/dev/null` ]]; then
 				printf "was ${G}Installed${reset}! Skipping...\n"
 			else
-				printf "is ${R}not Installed${reset}, Installing.."
+				printf "is ${R}not Installed${reset}, Installing...\n"
 				$sudo pacman -S $dep --noconfirm 2> err.log
 				if [[ `cat err.log | grep -E "target not found"` ]]; then
 					IFS=': ' read -ra strings <<< $(cat err.log | grep -oE "found.*")
