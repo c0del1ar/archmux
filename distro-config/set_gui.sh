@@ -39,6 +39,8 @@ gui_setup() {
 		7) ilham25_dotfiles ;;
 		*) echo -e "$err Cancelling..." && sleep 1;;
 	esac
+	printf "$quest Back to menu (enter): "
+	read noRet
 }
 
 app_list() {
