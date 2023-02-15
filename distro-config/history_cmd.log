@@ -1,1 +1,0 @@
-pacman -S gnome-flashback gnome-terminal gnome-control-center terminator archlinux-wallpaper dconf-editor --noconfirm
