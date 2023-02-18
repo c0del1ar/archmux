@@ -20,7 +20,7 @@ cd archmux
 ##### Installing dependencies
 
 1. First, type `bash setup.sh` will executing a semi-auto installation packages
-2. Quit and then reopen termux app
+2. Type `exit` or `CTRL+D` to exit and then reopen termux app
 3. Type `archlogin` to login. Now, you should logged in to root user.
 4. change dir to `distro-config`. Type `cd dist*` if you <sub>can't do this</sub> af.
 5. Create new user: `bash set_user.sh`. This will setting up important environment too.

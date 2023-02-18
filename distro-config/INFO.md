@@ -3,8 +3,8 @@
 ### Regular
 
 - After installation, restart your termux first to prevent an issue.
-- The package `yay` is not installed automatically.
-- It's recommended to install `yay` for better and simply for installing a package(s).
+- The package managers or containers like `yay`,`aur`,`flatpak`,`snap`, etc. is not installed automatically.
+- It's recommended to install `yay` for better and simplified for installing a package(s).
 
 ### Desktop Setup
 
