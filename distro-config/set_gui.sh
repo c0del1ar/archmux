@@ -45,23 +45,67 @@ gui_setup() {
 
 app_list() {
 	echo -e "$info Listing..."
-	menus=(Exit Chromium Firefox Sublime VSCode)
-	while [[ True ]]; do
-		for ((i=0; i<${#menus[@]}; i++)); do
-			echo -e "   $i) ${menus[$i]}"
-		done
-		printf "$quest Choose what you want to install (1-$((${#menus[@]}-1))): "
+	declare -A menus=(
+		[1]=Chromium
+		[2]=Firefox
+		[3]="Sublime Text"
+		[4]="Visual Studio Code"
+		[5]=LibreOffice
+		[6]=GIMP
+		[7]="VLC Media Player"
+	)
+	menu_alias=(
+		[3]=sublime-text-4
+		[4]=visual-studio-code-bin
+		[5]=libreoffice-fresh
+		[7]=vlc
+	)
+	echo "0) Exit"
+	for ((i=0; i<${#menus[@]}; i++)); do
+        echo "$((i+1))) ${menus[$((i+1))]}"
+    done
+	while true; do
+		printf "$quest Choose what you want to install (e.g. (1, 2-4, 1-5, 3)): "
 		read mychoice
-		case "$mychoice" in
-			0) echo -e "$info Exitting..." && break;;
-			1) app_install chromium ;;
-			2) app_install firefox ;;
-			3) app_install sublime-text-4 ;;
-			4) app_install visual-studio-code-bin ;;
-			*) echo -e "$err Input is not valid" ;;
-		esac
+		if [[ $mychoice =~ ^([0-9]+)-([0-9]+)$ ]]; then
+			start=${BASH_REMATCH[1]}
+			end=${BASH_REMATCH[2]}
+			if (( start <= end )) && (( end <= ${#menus[@]} )); then
+				for (( i=start; i<=end; i++ )); do
+					app=$(echo "${menus[$i]}" | tr '[:upper:]' '[:lower:]')
+					if [[ ${menu_alias[$i]} ]]; then
+						app=${menu_alias[$i]}
+					fi
+					
+					app_install "$app"
+				done
+				printf "$info Installations complete.\n"
+				break
+			else
+				printf "$err Range not defined!\n"
+			fi
+		elif [[ $mychoice =~ ^[0-9]+$ ]] && ((mychoice <= ${#menus[@]})); then
+			if ((mychoice == 0)); then
+				printf "$info Exiting...\n"
+				break
+			fi
+			
+			app=$(echo "${menus[$mychoice]}" | tr '[:upper:]' '[:lower:]')
+			if [[ ${menu_alias[$mychoice]} ]]; then
+				app=${menu_alias[$mychoice]}
+			fi
+			if [ -z "$app" ]; then
+				printf "$err Invalid choice\n"
+			else
+				app_install "$app"
+				break
+			fi
+		else
+			printf "$err Invalid input\n"
+		fi
 	done
 }
+
 
 sound_set
 check_update

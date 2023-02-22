@@ -12,7 +12,7 @@ app_install() {
 	fi
 	
 	echo -e "$info Checking package availability..."
-	if [[ `pacman -Si $1 2>err.log` ]]; then
+	if [[ `pacman -Si $1 2>/dev/null` ]]; then
 		echo -e "$info Installing package use ${C}pacman${reset}"
 		execcom "$sudo pacman -S $1"
 	else
@@ -58,7 +58,7 @@ sound_set() {
 	fi
 }
 
-# is like yay -S
+# yay -S or aur -S minimalist verse
 yoi() {
 	if [[ $1 == "" ]]; then
 		echo -e "$error No package(s) to install... Use \`${C}yoi package1 package2
