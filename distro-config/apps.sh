@@ -28,27 +28,6 @@ app_install() {
 	fi
 }
 
-vnc_set () {
-	echo -e "$info Setting up Vnc server..."
-	if [[ ! `command -v vncserver` ]]; then
-		echo -e "$info Installing tigervnc..."
-		execcom "$sudo pacman -S tigervnc lightdm --noconfirm"
-	fi
-	
-	echo "#!/bin/bash
-[ -r ~/.Xresources ] && xrdb ~/.Xresources
-export PULSE_SERVER=127.0.0.1
-export DISPLAY=:1
-XAUTHORITY=~/.Xauthority
-export XAUTHORITY
-$1" > /usr/local/bin/vncstart
-	chmod +x /usr/local/bin/vncstart
-	echo "#!/bin/bash
-vncserver -geometry 1280x720 -listen tcp :1
-DISPLAY=:1 xhost +" > /data/data/com.termux/files/usr/bin/vncstart
-	chmod +x /data/data/com.termux/files/usr/bin/vncstart
-}
-
 sound_set() {
 	ARCH_LOG_DIR=$(which archlogin)
 	echo -e "$info Setting up sound..."

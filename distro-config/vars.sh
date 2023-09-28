@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# Color variable
 c='\033['
 R=$c'31m'
 G=$c'32m'
@@ -6,10 +9,14 @@ B=$c'34m'
 C=$c'36m'
 W=$c'1;37m'
 reset=$c'0m'
+
+# Prefix text
 warn="[ "$Y"WARN"$reset" ]"
 info="[ "$G"INFO"$reset" ]"
 quest="[ "$B"QUEST"$reset" ]"
 err="[ "$R"CRITICAL"$reset" ]"
+
+
 myarch=$(uname -m)
 
 banner() {
@@ -38,3 +45,6 @@ execcom(){
 
 sudo=""
 if [[ `command -v sudo` && `id -u` ]]; then sudo="sudo"; fi
+
+# Services
+SERVICE_SRC="/data/data/com.termux/files/usr/bin/vncstart"

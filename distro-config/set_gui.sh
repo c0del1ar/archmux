@@ -5,7 +5,7 @@ source apps.sh
 source desktop.sh
 
 gui_setup() {
-	de_menu=("XFCE" "XFCE/Openbox" "KDE/Plasma", "GNOME")
+	de_menu=("XFCE" "KDE/Plasma", "GNOME")
 	wm_menu=("Openbox")
 	other_menu=("Openbox (${G}@owl4ce/dotfiles${reset})"
 				"Openbox (${G}@ilham25/dotfiles-openbox${reset})")
@@ -31,12 +31,11 @@ gui_setup() {
 	read mychoice
 	case "$mychoice" in
 		1) xfce_install ;;
-		2) openbox_install && xfce_install ;;
-		3) plasma_install ;;
-		4) gnome_install ;;
-		5) openbox_install ;;
-		6) owl4ce_dotfiles ;;
-		7) ilham25_dotfiles ;;
+		2) plasma_install ;;
+		3) gnome_install ;;
+		4) openbox_install ;;
+		5) owl4ce_dotfiles ;;
+		6) ilham25_dotfiles ;;
 		*) echo -e "$err Cancelling..." && sleep 1;;
 	esac
 	printf "$quest Back to menu (enter): "
@@ -53,6 +52,7 @@ app_list() {
 		[5]=LibreOffice
 		[6]=GIMP
 		[7]="VLC Media Player"
+		[8]=Blender
 	)
 	menu_alias=(
 		[3]=sublime-text-4
@@ -109,7 +109,7 @@ app_list() {
 
 sound_set
 check_update
-while [[ True ]]; do
+while true; do
 	banner
 	echo ""
 	echo "+----+--------------------+

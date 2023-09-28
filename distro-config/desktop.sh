@@ -37,7 +37,7 @@ dbus-launch gnome-flashback &"
 #Other Setups
 
 owl4ce_dotfiles() {
-	if [[ ! `comnand -v yay` ]]; then
+	if [[ ! `command -v yay` ]]; then
 		echo -e "$warn This setup maybe requires YAY (${C}800MB${reset}) for better installation."
 		printf "$quest Install it? (y/n): "
 		read yayins

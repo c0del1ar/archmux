@@ -64,6 +64,7 @@ distro() {
 		esac
 		exit 0
 	else
+		rm -r $archdir
 		printf "$quest Do you sure to install it? (y/n) "
 		read sure
 		
