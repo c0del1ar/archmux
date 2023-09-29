@@ -1,0 +1,22 @@
+proot-distro remove archlinux
+pkg uninstall pulseaudio proot-distro tigervnc x11-repo xorg-xhost -y
+pkg autoremove
+rm $(which vncstart)
+rm $(which archlogin)
+apt install pulseaudio -y
+apt install proot-distro -y
+proot-distro remove archlinux
+pkg uninstall pulseaudio proot-distro tigervnc x11-repo xorg-xhost -y
+apt autoremove
+rm /data/data/com.termux/files/usr/bin/vncstart
+rm /data/data/com.termux/files/usr/bin/archlogin
+proot-distro remove archlinux
+pkg uninstall pulseaudio proot-distro tigervnc x11-repo xorg-xhost -y
+apt autoremove
+rm
+rm
+proot-distro remove archlinux
+pkg uninstall pulseaudio proot-distro tigervnc x11-repo xorg-xhost -y
+apt autoremove -y
+rm
+rm

@@ -12,12 +12,12 @@ storage_check() {
 
 package() {
 	echo -e "$info Checking required package : (${W}proot-distro pulseaudio tigervnc xorg-xhost${reset})"
-	if [[ `command -v pulseaudio` && `command -v proot-distro` && `command -v xhost` ]]; then
+	if [[ `command -v pulseaudio` && `command -v proot-distro` && `command -v xhost` && `command -v vncserver` ]]; then
 		echo -e "$info Packages already installed."
 	else
 		apt update -y > out.log 2> err.log
 		apt upgrade -y > out.log 2> err.log
-		packs=(pulseaudio proot-distro tigervnc x11-repo xorg-xhost)
+		packs=(which pulseaudio proot-distro tigervnc x11-repo xorg-xhost)
 		for pkgname in "${packs[@]}"; do
 			type -p "$pkgname" &>/dev/null || {
 				echo -e "$info Installing package : ${C}${pkgname}${reset}"
@@ -25,6 +25,15 @@ package() {
 			}
 		done
 	fi
+}
+
+remove_distro() {
+	execcom "proot-distro remove archlinux"
+	execcom "pkg uninstall pulseaudio proot-distro tigervnc x11-repo xorg-xhost -y"
+	execcom "apt autoremove -y"
+	execcom "rm $(which vncstart)"
+	execcom "rm $(which archlogin)"
+	return 1
 }
 
 env_install() {
@@ -52,17 +61,25 @@ distro() {
 	if [[ `ls $archdir` != "" ]]; then
 		echo -e "$info Distro already installed."
 		echo -e "$info Command to login to your distro : ${G}archlogin${reset}"
-		printf "$quest Do you want to reinstalling environment? (y/n): "
+		printf "$quest What you wanna do?
+		1${G})${reset} Reinstall environment
+		2${G})${reset} Uninstall distro
+		B${G})${reset} I don't know..
+: "
 		read reins
 		case "$reins" in
-			Y|y)
+			1)
 				echo -e "$warn Reinstalling.."
 				env_install
 				;;
-			n|N) echo -e "$info Cancelling..";;
-			*) echo -e "$err Invalid input. Quitting.."
+			2) 
+				echo -e "$info Uninstalling.."
+				remove_distro
+				;;
+				
+			*) echo -e "$info Cancelling.."; return 1 ;;
 		esac
-		exit 0
+		return 1
 	else
 		rm -r $archdir
 		printf "$quest Do you sure to install it? (y/n) "
@@ -74,7 +91,7 @@ distro() {
 			execcom "termux-reload-settings"
 		else
 			echo -e "$err Cancelled."
-			exit 0
+			return 1
 		fi
 	fi
 
@@ -83,7 +100,7 @@ distro() {
 		env_install
 	else
 		echo -e "$err Error Installing Distro"
-		exit 0
+		return 1
 	fi
 }
 

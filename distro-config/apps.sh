@@ -8,7 +8,13 @@ check_update() {
 app_install() {
 	if [[ `command -v $1` ]]; then
 		echo -e "$warn $1 was installed successfully."
-		echo -e "$info Try upgrading it..."
+		printf "$quest Wanna try upgrading it? (Y/n) : "
+		read upgrading
+		
+		if [[ `echo "$upgrading" | tr '[:upper:]' '[:lower:]'` == "n" ]]; then
+			echo -e "$info Cancelled"
+			return 1
+		fi
 	fi
 	
 	echo -e "$info Checking package availability..."
@@ -40,9 +46,8 @@ sound_set() {
 # yay -S or aur -S minimalist verse
 yoi() {
 	if [[ $1 == "" ]]; then
-		echo -e "$error No package(s) to install... Use \`${C}yoi package1 package2
-		packageN${reset}\`"
-		exit 0
+		echo -e "$err No package(s) to install... Use \`${C}yoi package1 package2 packageN${reset}\`"
+		return 1
 	fi
 
 	if [[ ! `command -v git` || ! `command -v fakeroot` ]]; then
