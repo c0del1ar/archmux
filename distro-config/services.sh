@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source vars.sh
-
 vnc_set () {
 	echo -e "$info Setting up Vnc server..."
 	if [[ ! `command -v vncserver` ]]; then
