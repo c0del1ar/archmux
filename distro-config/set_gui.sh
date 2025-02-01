@@ -3,6 +3,7 @@
 source vars.sh
 source apps.sh
 source desktop.sh
+source services.sh
 
 gui_setup() {
 	de_menu=("XFCE" "KDE/Plasma", "GNOME")
